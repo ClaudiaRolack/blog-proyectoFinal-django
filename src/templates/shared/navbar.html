@@ -1,13 +1,25 @@
-<nav style="display: flex;
-     justify-content: space-between;
-     align-items: center;">
-     <button>
-        <a href="{% url 'home' %}">Inicio</a>
-     </button>
-     <button>
-        <a href="{% url 'user:register' %}">Registrarse</a>
-     </button>
-     <button>
-        <a href="#">Iniciar sesión</a>
-     </button>
+<nav>
+  <ul style="display: flex; 
+             list-style: none; 
+             gap: 1rem; 
+             justify-content: space-between; 
+             align-items: center; 
+             padding: 0; 
+             margin: 0;">
+
+    <li><a href="{% url 'home' %}">Inicio</a></li>
+    
+    {% if user.is_authenticated %}
+      <li><a href="{% url 'user:profile' %}">Profile</a></li>
+      <li>
+        <form action="{% url 'user:logout' %}" method="post" style="display: inline;">
+          {% csrf_token %}
+          <button type="submit" style="background:none; border:none; color:blue; cursor:pointer; padding:0;">Cerrar sesión</button>
+        </form>
+      </li>
+    {% else %}
+      <li><a href="{% url 'user:register' %}">Registrarse</a></li>
+      <li><a href="{% url 'user:login' %}">Iniciar sesión</a></li>
+    {% endif %}
+  </ul>
 </nav>
