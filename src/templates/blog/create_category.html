@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Crea tu categoría
+{% endblock title %}
+
+{% block content %}
+
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Crear</button>
+    </form>
+
+{% endblock content %}

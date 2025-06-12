@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ post.title }}
+{% endblock title %}
+
+{% block content %}
+    <p>{{ post.content }}</p>
+
+    <hr>
+    <h3>Comentarios</h3>
+
+    {% if comments %}
+        {% for comment in comments %}
+            <div>
+                <strong>{{ comment.author }}</strong> - {{ comment.date }}
+                <p>{{ comment.content }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No hay comentarios aún.</p>
+    {% endif %}
+
+    <hr>
+    <h4>Dejar un comentario</h4>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Publicar comentario</button>
+    </form>
+{% endblock %}
