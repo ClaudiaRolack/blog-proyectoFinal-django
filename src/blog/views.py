@@ -1,17 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
+from django.db.models import Q
 from .forms import SearchForm, CategoryForm, PostForm, CommentForm
 from .models import Post, Category
 from django.contrib.auth.decorators import login_required
 
-
-def search_post(request):
-    form = SearchForm(request.GET)
-    results = []
-    if form.is_valid():
-        query = form.cleaned_data['query']
-        results = Post.objects.filter(title__icontains=query)
-    return render(request, 'blog/search.html', {'form': form, 'results': results})
 
 @login_required
 def create_category(request):
@@ -71,4 +64,22 @@ def post_detail(request, pk):
         'post': post,
         'comments': comments,
         'form': form
+    })
+
+def search_post(request):
+    form = SearchForm(request.GET or None)
+    results = Post.objects.all()
+
+    if form.is_valid():
+        query = form.cleaned_data.get('query')
+        if query:
+            results = Post.objects.filter(
+                Q(title__icontains=query) |
+                Q(content__icontains=query) |
+                Q(categories__name__icontains=query)
+            ).distinct()
+
+    return render(request, 'blog/search.html', {
+        'form': form,
+        'results': results
     })
