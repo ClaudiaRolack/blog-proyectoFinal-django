@@ -12,14 +12,18 @@ def register(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request, user)
-            messages.success(request, '¡Registro exitoso! Ahora estás logueado.')
-            return redirect('profile')
+            try:
+                user = form.save()
+                login(request, user)
+                messages.success(request, '¡Registro exitoso! Ahora estás logueado.')
+                return redirect('user:profile')
+            except Exception as e:
+                messages.error(request, f'Ocurrió un error inesperado: {str(e)}')
         else:
-            messages.error(request, 'Error en el registro. Por favor, revisá los campos.')
+            messages.error(request, 'Error en el registro. Por favor, revisa los campos.')
     else:
         form = RegisterForm()
+    
     return render(request, 'user/register.html', {'form': form})
 
 @login_required

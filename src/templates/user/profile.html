@@ -5,23 +5,25 @@
 {% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="card text-center">
-        <div class="card-header">
-            <h2>¡Bienvenido, {{ user.username }}!</h2>
-        </div>
-        <div class="card-body">
-            <a href="{% url 'blog:create_category' %}"><button>Crear nueva categoría</button></a>
-        </div>
-        <div>
-            <a href="{% url 'blog:create_post' %}"><button>Crear nuevo post</button></a>
-        </div>
-        <div>
-            <a href="{% url 'blog:my_posts' %}"><button>Mis post</button></a>
-        </div>
-        <div>
-            <a href="{% url 'blog:search' %}"><button>Buscar</button></a>
+
+    <div class="container mt-5">
+        <div class="card text-center">
+            <div class="card-header">
+                <h2>¡Bienvenido, {{ user.username }}!</h2>
+            </div>
+            <div class="card-body">
+                <a href="{% url 'blog:create_category' %}"><button>Crear nueva categoría</button></a>
+            </div>
+            <div>
+                <a href="{% url 'blog:create_post' %}"><button>Crear nuevo post</button></a>
+            </div>
+            <div>
+                <a href="{% url 'blog:my_posts' %}"><button>Mis post</button></a>
+            </div>
+            <div>
+                <a href="{% url 'blog:search' %}"><button>Buscar</button></a>
+            </div>
         </div>
     </div>
-</div>
+
 {% endblock %}

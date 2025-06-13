@@ -6,21 +6,22 @@
 
 {% block content %}
 
-<form method="get">
-    {{ form.as_p }}
-    <button type="submit">Buscar</button>
-</form>
+    <form method="get">
+        {{ form.as_p }}
+        <button type="submit">Buscar</button>
+    </form>
 
-{% if form.is_bound %}
-    {% if results %}
-        <h3>Resultados:</h3>
-        <ul>
-            {% for post in results %}
-            <li><a href="{% url 'blog:post_detail' post.pk %}">{{ post.title }}</a></li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No se encontraron resultados.</p>
+    {% if form.is_bound %}
+        {% if results %}
+            <h3>Resultados:</h3>
+            <ul>
+                {% for post in results %}
+                <li><a href="{% url 'blog:post_detail' post.pk %}">{{ post.title }}</a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No se encontraron resultados.</p>
+        {% endif %}
     {% endif %}
-{% endif %}
+
 {% endblock %}

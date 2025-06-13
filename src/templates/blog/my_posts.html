@@ -5,6 +5,7 @@
 {% endblock title %}
 
 {% block content %}
+
     <ul>
         {% for post in posts %}
         <li><a href="{% url 'blog:post_detail' post.pk %}">{{ post.title }}</a></li>
@@ -12,4 +13,5 @@
         <li>No has creado ningún post aún.</li>
         {% endfor %}
     </ul>
+    
 {% endblock %}

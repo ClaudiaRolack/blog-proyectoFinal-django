@@ -5,18 +5,19 @@
 {% endblock title %}
 
 {% block content %}
+
     <p>{{ post.content }}</p>
 
     <hr>
     <h3>Comentarios</h3>
 
     {% if comments %}
-        {% for comment in comments %}
-            <div>
-                <strong>{{ comment.author }}</strong> - {{ comment.date }}
-                <p>{{ comment.content }}</p>
-            </div>
-        {% endfor %}
+    {% for comment in comments %}
+        <div>
+            <strong>{{ comment.author }}</strong> - {{ comment.date }}
+            <p>{{ comment.content }}</p>
+        </div>
+    {% endfor %}
     {% else %}
         <p>No hay comentarios aún.</p>
     {% endif %}
@@ -28,4 +29,5 @@
         {{ form.as_p }}
         <button type="submit">Publicar comentario</button>
     </form>
+
 {% endblock %}

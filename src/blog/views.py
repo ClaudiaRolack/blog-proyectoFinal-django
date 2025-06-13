@@ -28,12 +28,15 @@ def create_post(request):
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.save()
-            form.save_m2m()
-            messages.success(request, "Post creado exitosamente.")
-            return redirect('blog:create_post')
+            try:
+                post = form.save(commit=False)
+                post.author = request.user
+                post.save()
+                form.save_m2m()
+                messages.success(request, "Post creado exitosamente.")
+                return redirect('blog:create_post')
+            except Exception as e:
+                messages.error(request, f"Ocurrió un error al guardar el post: {e}")
     else:
         form = PostForm()
     return render(request, 'blog/create_post.html', {'form': form})
@@ -45,18 +48,23 @@ def my_posts(request):
 
 @login_required
 def post_detail(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    comments = post.comments.all().order_by('-date') 
+    try:
+        post = Post.objects.get(id=pk, author=request.user)
+    except Post.DoesNotExist:
+        messages.error(request, "El post no existe o no tienes permiso para verlo.")
+        return redirect('blog:my_posts')
+
+    comments = post.comments.all().order_by('-date')
 
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
-            comment.post = post
             comment.author = request.user
+            comment.post = post
             comment.save()
-            messages.success(request, "Comentario publicado exitosamente.")
-            return redirect('blog:post_detail', pk=post.pk)
+            messages.success(request, "Comentario agregado exitosamente.")
+            return redirect('blog:post_detail', pk=post.id)
     else:
         form = CommentForm()
 
