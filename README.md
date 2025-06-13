@@ -13,11 +13,11 @@ Este es un blog desarrollado con Django como primera parte de un proyecto final 
 
 ## 🧱 Estructura del proyecto
 
-![Estructura del proyecto](proyectoFinal/assets/estructuraBlog.png)
+![Estructura del proyecto](assets/estructuraBlog.png)
 
 ## 🗃️ Diagrama de la base de datos
 
-![Diagrama de la base de datos](proyectoFinal/assets/diagramaBlog.png)
+![Diagrama de la base de datos](assets/diagramaBlog.png)
 
 
 ## ⚙️ Instalación
@@ -72,4 +72,4 @@ Este es un blog desarrollado con Django como primera parte de un proyecto final 
 
 ---
 
-💡 ¡Gracias por visitar el proyecto!
+# 💡 ¡Gracias por visitar el proyecto!
