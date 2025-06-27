@@ -28,10 +28,17 @@
 
     <hr>
     <h4>Dejar un comentario</h4>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Publicar comentario</button>
-    </form>
+
+    {% if user.is_authenticated %}
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+         <button type="submit">Publicar comentario</button>
+        </form>
+    {% else %}
+         <p>
+            <a href="{% url 'user:login' %}?next={{ request.path }}">Inicia sesión para comentar</a>.
+        </p>
+    {% endif %}
 
 {% endblock %}

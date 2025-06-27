@@ -1,0 +1,9 @@
+<ul>
+    {% for post in posts %}
+        <li>
+            <a href="{% url 'blog:post_detail' post.pk %}">{{ post.title }}</a> — {{ post.date }}
+        </li>
+    {% empty %}
+        <li>No hay publicaciones aún.</li>
+    {% endfor %}
+</ul>
