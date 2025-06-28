@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content_title %}
+    Posts en la categoría: {{ category.name }}
+{% endblock content_title %}
+
+{% block title %}
+    {{ category.name }}
+{% endblock title %}
+
+{% block content %}
+
+    {% if posts %}
+        <ul>
+            {% for post in posts %}
+                <li><a href="{% url 'blog:post_detail' post.pk %}">{{ post.title }}</a> - {{ post.date }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No hay posts en esta categoría.</p>
+    {% endif %}
+    
+{% endblock content %}

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content_title %}
+    Eliminar comentario
+{% endblock %}
+
+{% block content %}
+
+    <p>¿Estás seguro de que deseas eliminar este comentario?</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Sí, eliminar</button>
+        <a href="{{ comment.post.get_absolute_url }}">Cancelar</a>
+    </form>
+
+{% endblock %}

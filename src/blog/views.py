@@ -3,10 +3,11 @@ from django.views.generic import ListView, DetailView, TemplateView, CreateView,
 from django.contrib import messages
 from django.db.models import Q
 from django.urls import reverse_lazy
+from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .forms import SearchForm, CategoryForm, PostForm, CommentForm
-from .models import Post, Category
+from .models import Post, Category, Comment
 
 
 class HomeView(TemplateView):
@@ -92,6 +93,50 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         post = self.get_object()
         return post.author == self.request.user 
     
+class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Comment
+    form_class = CommentForm
+    template_name = 'blog/edit_comment.html'
+
+    def form_valid(self, form):
+        messages.success(self.request, "Comentario actualizado exitosamente.")
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return self.object.post.get_absolute_url()
+
+    def test_func(self):
+        return self.get_object().author == self.request.user
+
+class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Comment
+    template_name = 'blog/delete_comment.html'
+
+    def get_success_url(self):
+        return self.object.post.get_absolute_url()
+
+    def test_func(self):
+        return self.get_object().author == self.request.user
+
+class PostsByCategoryListView(ListView):
+    model = Post
+    template_name = 'blog/posts_by_category.html'
+    context_object_name = 'posts'
+    paginate_by = 10
+
+    def get_queryset(self):
+        category_id = self.kwargs.get('pk')
+        return Post.objects.filter(categories__id=category_id).order_by('-date')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        try:
+            category = Category.objects.get(pk=self.kwargs.get('pk'))
+        except Category.DoesNotExist:
+            raise Http404("La categoría no existe.")
+        context['category'] = category
+        return context
+    
 @login_required
 def create_category(request):
     if request.method == 'POST':
@@ -101,9 +146,12 @@ def create_category(request):
             if Category.objects.filter(name__iexact=name).exists():
                 messages.warning(request, f"La categoría '{name}' ya existe.")
             else:
-                form.save()
-                messages.success(request, f"Categoría '{name}' creada exitosamente.")
-                return redirect('blog:create_category')
+                try:
+                    form.save()
+                    messages.success(request, f"Categoría '{name}' creada exitosamente.")
+                    return redirect('blog:create_category')
+                except Exception as e:
+                    messages.error(request, f"Error al crear la categoría: {str(e)}")
     else:
         form = CategoryForm()
 
@@ -126,3 +174,6 @@ def search_post(request):
         'form': form,
         'results': results
     })
+
+class AboutView(TemplateView):
+    template_name = 'blog/about.html'

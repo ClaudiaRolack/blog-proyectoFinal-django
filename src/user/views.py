@@ -3,12 +3,16 @@ from django.contrib.auth import login
 from .forms import RegisterForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from blog.models import Post
+from blog.models import Post, Category
 
 
 def home(request):
     posts = Post.objects.all().order_by('-date')
-    return render(request, 'index.html', {'posts': posts})
+    categories = Category.objects.all().order_by('name')
+    return render(request, 'index.html', {
+        'posts': posts,
+        'categories': categories
+    })
 
 def register(request):
     if request.method == 'POST':

@@ -1,17 +1,19 @@
 # 📝 Blog Proyecto Final - Django
 
-Este es un blog desarrollado con Django como primera parte de un proyecto final del curso de programación con Python. Permite a los usuarios registrarse, iniciar sesión, crear categorías y posts, comentar y buscar contenido por palabra clave o categoría.
+Este es un blog desarrollado con Django como proyecto final del curso de programación con Python. Permite a los usuarios registrarse, iniciar sesión, crear categorías y posts, comentar, buscar contenido por palabra clave o categoría, y gestionar completamente sus publicaciones y comentarios.
 
 
 ## 🚀 Funcionalidades principales
 
 - Registro e inicio de sesión de usuarios.
+- Creación, edición y eliminación de posts personales.
+- Creación, edición y eliminación de comentarios.
 - Creación de categorías personalizadas.
-- Creación y visualización de posts.
-- Comentarios autenticados en cada post.
+- Prevención de categorías duplicadas (ignora mayúsculas/minúsculas).
+- Visualización de publicaciones filtradas por categoría.
 - Búsqueda por palabra clave o nombre de categoría.
+- Vista de "Sobre nosotros" que explica el propósito del blog.
 - Expiración de sesión tras 1 hora de inactividad.
-
 
 ## 🧱 Estructura del proyecto
 
@@ -59,8 +61,11 @@ Este es un blog desarrollado con Django como primera parte de un proyecto final 
 3. **Crea una categoría** en la sección correspondiente.
 4. **Escribe un post**, eligiendo una o varias categorías.
 5. **Explora tus posts** en "Mis posts".
-6. **Haz clic en un título** para ver el detalle del post y comentar.
-7. **Busca contenido** desde el input de búsqueda (por palabra clave o nombre de categoría).
+6. **Edita o elimina tus publicaciones** desde el listado personal.
+7. **Comenta en cualquier post** y gestiona tus propios comentarios.
+8. **Busca contenido** desde el input de búsqueda (por palabra clave o nombre de categoría).
+9. **Haz clic en una categoría** para ver todos los posts asociados.
+10. **Consulta la sección "Sobre nosotros"** para más información del proyecto.
 
 
 ## 🔐 Seguridad y configuración
@@ -68,6 +73,7 @@ Este es un blog desarrollado con Django como primera parte de un proyecto final 
 - Las sesiones expiran tras 1 hora de inactividad: configurado con SESSION_COOKIE_AGE = 3600 en settings.py.
 - Los formularios están protegidos contra ataques CSRF.
 - Solo los usuarios autenticados pueden crear contenido o comentar.
+- Solo el autor de un post o comentario puede editar o eliminarlo.
 
 
 ## ✅ Requisitos

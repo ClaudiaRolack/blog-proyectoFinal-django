@@ -1,0 +1,9 @@
+<ul>
+    {% for category in categories %}
+        <li>
+            <a href="{% url 'blog:posts_by_category' category.pk %}">{{ category.name }}</a>
+        </li>
+    {% empty %}
+        <li>No hay categorías disponibles.</li>
+    {% endfor %}
+</ul>
